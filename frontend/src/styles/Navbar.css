@@ -1,0 +1,91 @@
+/* Navbar styles */
+.navbar {
+  background-color: #333; /* Dark background for better contrast */
+  font-family: 'Arial', sans-serif;
+  padding: 10px 20px; /* Add some padding */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Brand logo */
+.navbar-brand {
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff; /* White text */
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.navbar-brand:hover {
+  color: #f8c146; /* Gold color on hover */
+  transform: scale(1.1); /* Slight zoom effect */
+}
+
+/* Links styles */
+.navbar-nav .nav-link {
+  margin-left: 20px; /* Space between items */
+  color: #fff; /* White text */
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  padding: 8px 15px; /* Add padding for better spacing */
+  border-radius: 5px; /* Rounded corners for links */
+}
+
+/* Hover effect */
+.navbar-nav .nav-link:hover {
+  color: #f8c146; /* Gold color */
+  text-decoration: none; /* Remove underline */
+  background-color: rgba(248, 193, 70, 0.1); /* Light gold background */
+  transform: translateY(-2px); /* Slight hover lift effect */
+}
+
+/* Active link styles */
+.navbar-nav .nav-link.active {
+  color: #f8c146; /* Gold color for active links */
+  font-weight: bold;
+  background-color: rgba(248, 193, 70, 0.2); /* Subtle background for active state */
+  text-decoration: none;
+  transform: scale(1.05); /* Slight zoom effect for active link */
+}
+
+/* Toggler button */
+.navbar-toggler {
+  border-color: #fff;
+  background-color: #333; /* Match the navbar background */
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+/* Navbar item badges */
+.navbar-nav .nav-link .badge {
+  background-color: #f8c146;
+  color: #333; /* Dark color for contrast */
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 5px 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover .badge {
+  background-color: #e0a800; /* Darker shade of gold on hover */
+}
+
+/* Responsive design adjustments */
+@media (max-width: 768px) {
+  .navbar-nav .nav-link {
+    margin-bottom: 15px; /* Add more spacing between links on smaller screens */
+    font-size: 1.2rem; /* Adjust font size for smaller screens */
+  }
+  
+  .navbar-brand {
+    font-size: 1.7rem; /* Adjust logo size for smaller screens */
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+}

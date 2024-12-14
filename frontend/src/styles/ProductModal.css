@@ -1,0 +1,216 @@
+/* Phần bên ngoài modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 1); /* Nền trắng hoàn toàn */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Phần nội dung modal */
+.modal-content {
+    position: relative;
+    background-color: #fff; /* Nền trắng hoàn toàn */
+    padding: 30px;
+    width: 75%;
+    max-width: 1100px;
+    margin: auto;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: auto;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-50px);
+    animation: slideDown 0.5s ease-out forwards;
+    gap: 30px;
+}
+
+/* Hiệu ứng kéo xuống */
+@keyframes slideDown {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Hiệu ứng fade-in cho overlay */
+@keyframes fadeIn {
+    0% {
+        background: rgba(255, 255, 255, 0); /* Trong suốt */
+    }
+    100% {
+        background: rgba(255, 255, 255, 1); /* Nền trắng hoàn toàn */
+    }
+}
+
+/* Nút đóng modal */
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+    color: #000;
+}
+
+/* Hình ảnh sản phẩm */
+.modal-image {
+    width: 100%;
+    height: 400px; /* Tăng chiều cao lên 400px */
+    object-fit: cover; /* Đảm bảo ảnh không bị kéo dài, giữ tỷ lệ */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Hiệu ứng phóng to khi hover */
+.modal-image:hover {
+    transform: scale(1.05);
+    cursor: zoom-in;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Thông tin chi tiết sản phẩm */
+.modal-details {
+    width: 50%;
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+/* Tên sản phẩm */
+.modal-details h2 {
+    font-size: 32px;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: 600;
+    line-height: 1.4;
+    text-transform: uppercase;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Mô tả sản phẩm */
+.modal-details p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+/* Phần chọn size */
+.modal-details .size-options {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.modal-details .size-options .size-option {
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #bbb;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-details .size-options .size-option:hover {
+    background-color: #f8b400;
+    transform: scale(1.05);
+}
+
+.modal-details .size-options .size-option.selected {
+    background-color: #f8b400;
+    color: white;
+    font-weight: bold;
+}
+
+/* Phần chọn màu sắc */
+.modal-details .color-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.modal-details .color-options .color-option {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    opacity: 0.8;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.modal-details .color-options .color-option:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Màu sắc */
+.modal-details .color-option.orange {
+    background-color: orange;
+}
+
+.modal-details .color-option.blue {
+    background-color: blue;
+}
+
+.modal-details .color-option.green {
+    background-color: green;
+}
+
+.modal-details .color-option.selected {
+    border: 3px solid #000;
+}
+
+/* Số lượng sản phẩm */
+.modal-details input[type="number"] {
+    margin-left: 10px;
+    padding: 5px;
+    width: 60px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Nút mua ngay */
+.modal-details .btn {
+    padding: 12px 25px;
+    background-color: #f8b400;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.modal-details .btn:hover {
+    background-color: #e68900;
+    transform: scale(1.05);
+}

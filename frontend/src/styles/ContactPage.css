@@ -1,0 +1,354 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+/* CSS Variables */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #f9f9f9;
+  --background-color: #f0f0f5;
+  --text-color: #333;
+  --light-text-color: #777;
+  --font-family: 'Open Sans', sans-serif;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --hover-color: #0056b3;
+}
+
+/* General Styles */
+body {
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* Contact Page Container */
+.contact-page-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: var(--secondary-color);
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/* Inner Container */
+.contact-page-inner {
+  width: 100%;
+  min-height: 100%;
+  padding: 50px;
+  background-color: #fff;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  margin-top: 30px;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+}
+
+/* Header */
+.contact-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contact-header h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--text-color);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  display: inline-block;
+  margin-bottom: 10px;
+  line-height: 1.2;
+}
+
+.contact-header h1::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: var(--primary-color);
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+.contact-header p {
+  font-size: 1.1rem;
+  color: var(--light-text-color);
+  font-style: italic;
+  margin: 10px auto 0;
+  line-height: 1.4;
+}
+
+/* Contact Content */
+.contact-content {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  min-height: 500px;
+}
+
+/* Working Hours Section */
+.working-hours {
+  flex: 1 1 100%;
+  padding: 30px;
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  box-sizing: border-box;
+  margin-bottom: 30px;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-out forwards;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.working-hours:hover {
+  transform: scale(1.05); /* Zoom in on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.working-hours h2 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.working-hours ul {
+  list-style: none;
+  padding: 0;
+}
+
+.working-hours ul li {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.working-hours strong {
+  color: var(--primary-color);
+}
+
+/* Contact Form */
+.contact-form {
+  flex: 1 1 48%;
+  padding: 30px;
+  background-color: var(--secondary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add hover effects */
+}
+
+.contact-form:hover {
+  transform: scale(1.05); /* Zoom in on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.contact-form h2 {
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.contact-form label {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-bottom: 12px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  font-size: 1.1rem;
+  padding: 15px;
+  margin-bottom: 25px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+
+.contact-form button {
+  font-size: 1.3rem;
+  padding: 14px 35px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.contact-form button:hover {
+  background-color: var(--hover-color);
+}
+
+/* Right Section: Contact Info and Feedback */
+.right-section {
+  flex: 1 1 48%;
+  box-sizing: border-box;
+}
+
+/* Contact Info */
+.contact-info {
+  background-color: var(--secondary-color);
+  padding: 30px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  margin-bottom: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-info:hover {
+  transform: scale(1.05); /* Zoom in on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.contact-info h2 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.contact-info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-info ul li {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.contact-info strong {
+  color: var(--primary-color);
+}
+
+.social-icons a {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-right: 15px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: var(--hover-color);
+}
+
+/* Feedback Section */
+.testimonials {
+  background-color: var(--secondary-color);
+  padding: 30px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonials:hover {
+  transform: scale(1.05); /* Zoom in on hover */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.testimonials h3 {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.testimonials p {
+  font-size: 1.1rem;
+  color: var(--text-color);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+/* Notification Box (Thông Báo Gửi Thành Công) */
+.notification-box {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50; /* Màu nền thông báo thành công */
+  color: white;
+  padding: 15px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-size: 1.1rem;
+  z-index: 1000;
+  width: auto;
+  max-width: 400px;
+  display: flex;
+  align-items: center; /* Căn giữa nội dung thông báo */
+  opacity: 0;
+  visibility: hidden; /* Ẩn thông báo khi không có lớp show */
+  transition: opacity 0.5s ease-in-out, visibility 0s 0.5s; /* Thêm thời gian delay cho visibility */
+}
+
+/* Hiển thị thông báo khi có class 'show' */
+.notification-box.show {
+  opacity: 1;
+  visibility: visible; /* Hiển thị thông báo khi có lớp show */
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Icon trong thông báo */
+.notification-box .notification-icon {
+  font-size: 2rem;
+  margin-right: 15px;
+  color: white;
+}
+
+/* Nội dung thông báo */
+.notification-box .notification-content {
+  flex-grow: 1; /* Cho phép nội dung chiếm không gian còn lại */
+}
+
+/* Nút đóng thông báo */
+.close-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: white;
+  background: none;
+  border: none;
+}
+
+/* Animation cho icon */
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Hiệu ứng cho icon khi thông báo xuất hiện */
+.notification-box.show .notification-icon {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+

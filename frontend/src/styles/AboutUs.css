@@ -1,0 +1,159 @@
+/* Reset some base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* General body styling */
+  .about-us-container {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  /* Header Section with smooth animation */
+  .about-us-header {
+    text-align: center;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #6dd5ed, #2196f3);
+    color: white;
+    border-bottom: 5px solid #004080;
+    animation: fadeIn 1s ease-out;
+  }
+  
+  .about-us-header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+  
+  .about-us-header p {
+    font-size: 1.2rem;
+  }
+  
+  /* Mission Section */
+  .about-us-mission,
+  .about-us-values,
+  .about-us-team {
+    padding: 40px 20px;
+    text-align: center;
+    animation: slideIn 1s ease-out;
+    transition: transform 0.3s ease;
+  }
+  
+  .about-us-mission {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .about-us-values {
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    border-radius: 8px;
+  }
+  
+  .about-us-team {
+    background-color: #e0e0e0;
+    border-radius: 8px;
+  }
+  
+  /* Cards & Grid Effect */
+  .values-grid {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .value-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px 20px;
+    width: 280px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Team members with hover zoom effect */
+  .team-members {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .team-member {
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .team-member:hover {
+    transform: scale(1.1);
+  }
+  
+  .team-member img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
+  
+  .team-member img:hover {
+    transform: rotate(10deg);
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  /* Parallax effect */
+  .about-us-container::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../assets/images/banner.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: -1;
+    transform: scale(1.1);
+    filter: brightness(0.7);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .team-members {
+      flex-direction: column;
+    }
+  
+    .team-member img {
+      width: 80px;
+      height: 80px;
+    }
+  }
+  

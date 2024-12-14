@@ -1,0 +1,108 @@
+/* Nền chính của trang thanh toán */
+.checkout-page {
+  background-color: #f8f9fa; /* Màu nền sáng */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Thiết kế thẻ (card) */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 12px; /* Bo tròn góc mềm mại */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Hiệu ứng nổi khi hover */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Bố cục bên trong thẻ */
+.card-body {
+  padding: 20px;
+  background-color: #ffffff; /* Màu nền trắng */
+  border-radius: 10px;
+}
+
+/* Tiêu đề của thẻ */
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #343a40; /* Màu chữ tối */
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+}
+
+/* Tổng tiền hiển thị */
+.total-price {
+  font-size: 1.8rem;
+  color: #dc3545;
+  font-weight: bold;
+}
+
+/* Nút thanh toán */
+.btn-success {
+  font-size: 1.2rem;
+  padding: 12px;
+  background-color: #28a745;
+  border-color: #28a745;
+  border-radius: 30px; /* Nút bo tròn */
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+  transform: translateY(-3px); /* Nổi nhẹ khi hover */
+}
+
+/* Nút quay về */
+.btn-outline-primary {
+  font-size: 1.2rem;
+  padding: 12px;
+  border-radius: 30px;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* Gradient tiêu đề */
+.text-gradient {
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+/* Hiệu ứng hover danh sách */
+.list-group-item {
+  border: none;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #e9ecef;
+}
+
+/* Input form */
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+}

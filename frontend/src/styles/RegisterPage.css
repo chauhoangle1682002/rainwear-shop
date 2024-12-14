@@ -1,0 +1,82 @@
+/* Body Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Background for register page */
+.register-page {
+    background: url('../assets/images/anhdn.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+}
+
+/* Register Container */
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Register Box */
+.register-box {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Input Group */
+.input-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 1rem 2.5rem 1rem 1rem;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.input-group .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+/* Register Button */
+.register-btn {
+    background: #00ff00;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.register-btn:hover {
+    background: #00cc00;
+    transform: scale(1.05);
+}
+
+/* Login Link */
+.login-link {
+    margin-top: 2rem;
+    color: #ccc;
+}
+
+.login-link a {
+    color: #00ff00;
+}

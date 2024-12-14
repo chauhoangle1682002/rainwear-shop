@@ -1,0 +1,146 @@
+/* Body Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Background for login and register pages only */
+.login-page {
+    background: url('../assets/images/anhdn.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh; /* Đảm bảo chiều cao của phần tử là 100% */
+}
+
+/* Register page background */
+.register-page {
+    background: url('../assets/images/anhdn.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh; /* Đảm bảo chiều cao của phần tử là 100% */
+}
+
+/* Login Container */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Login Box */
+.login-box {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease-in-out;
+}
+
+.login-box:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Title */
+h2 {
+    margin-bottom: 2rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #00ff00;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Input Group */
+.input-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 1rem 2.5rem 1rem 1rem;
+    border: 1px solid #fff;
+    border-radius: 6px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #00ff00;
+    background: rgba(0, 255, 0, 0.1);
+}
+
+.input-group .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 1.2rem;
+}
+
+/* Options (Remember Me + Forgot Password) */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    color: #ccc;
+}
+
+.options a {
+    color: #00ff00;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.options a:hover {
+    color: #00cc00;
+    text-decoration: underline;
+}
+
+/* Login Button */
+.login-btn {
+    background: #00ff00;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.login-btn:hover {
+    background: #00cc00;
+    transform: scale(1.05);
+}
+
+/* Register Link */
+.register-link {
+    margin-top: 2rem;
+    color: #ccc;
+}
+
+.register-link a {
+    color: #00ff00;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    color: #00cc00;
+    text-decoration: underline;
+}
