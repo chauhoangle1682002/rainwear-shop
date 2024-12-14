@@ -1,23 +1,23 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:5001/api', // Địa chỉ API backend của bạn
+  baseURL: 'http://localhost:5001/api',
   headers: {
-    'Content-Type': 'application/json',
-  },
+    'Content-Type': 'application/json'
+  }
 });
 
-// Thêm interceptor để tự động thêm token vào các request
+// Add token to requests
 axiosInstance.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token'); // Lấy token từ localStorage
+    const token = localStorage.getItem('token');
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`; // Thêm token vào header Authorization
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
   (error) => {
-    return Promise.reject(error); // Xử lý lỗi trước khi request được gửi đi
+    return Promise.reject(error);
   }
 );
 

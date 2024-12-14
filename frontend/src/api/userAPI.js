@@ -1,20 +1,31 @@
 import axiosInstance from './axiosInstance';
 
-// Gọi API đăng nhập
-export const login = async (emailOrPhone, password) => {
-  return axiosInstance.post('/users/login', { emailOrPhone, password });
+export const register = async (userData) => {
+  try {
+    const response = await axiosInstance.post('/users/register', userData);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: 'Lỗi kết nối server' };
+  }
 };
 
-// Hàm gọi API đăng ký
-export const register = async (emailOrPhone, password) => {
-    const response = await axiosInstance.post('/users/register', {
+export const login = async (emailOrPhone, password) => {
+  try {
+    const response = await axiosInstance.post('/users/login', {
       emailOrPhone,
-      password,
+      password
     });
-    return response.data; // Trả về dữ liệu phản hồi
-  };
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: 'Lỗi kết nối server' };
+  }
+};
 
-// Gọi API lấy thông tin người dùng hiện tại
-export const getCurrentUser = async () => {
-  return axiosInstance.get('/users/me'); // API cần xác thực
+export const getProfile = async () => {
+  try {
+    const response = await axiosInstance.get('/users/profile');
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: 'Lỗi kết nối server' };
+  }
 };

@@ -1,52 +1,67 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Import axios để gọi API
-import "../styles/RegisterPage.css"; // Import CSS
+import { register } from '../api/userAPI';
+import "../styles/RegisterPage.css";
 
 const RegisterPage = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: ''
+  });
+  const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const validateForm = () => {
+    const { username, email, phone, password, confirmPassword } = formData;
+    
+    if (password !== confirmPassword) {
+      setError('Mật khẩu xác nhận không khớp');
+      return false;
+    }
+
+    if (password.length < 6) {
+      setError('Mật khẩu phải có ít nhất 6 ký tự');
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Email không hợp lệ');
+      return false;
+    }
+
+    const phoneRegex = /^[0-9]{10,11}$/;
+    if (!phoneRegex.test(phone)) {
+      setError('Số điện thoại không hợp lệ');
+      return false;
+    }
+
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
 
-    // Kiểm tra tính hợp lệ của email hoặc số điện thoại
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const phoneRegex = /^[0-9]{10,15}$/;
-    if (!emailRegex.test(email) && !phoneRegex.test(phone)) {
-      alert('Vui lòng nhập đúng email hoặc số điện thoại!');
-      return;
-    }
-
-    // Kiểm tra mật khẩu xác nhận có khớp không
-    if (password !== confirmPassword) {
-      alert('Mật khẩu xác nhận không khớp!');
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
-      const response = await axios.post('http://localhost:5001/api/users/register', {
-        username: username,
-        email: email,
-        phone: phone,
-        password: password,
-      });
-
-      if (response.data.success) {
-        alert('Đăng ký thành công!');
-        navigate('/login');
-      } else {
-        setErrorMessage(response.data.message || 'Có lỗi xảy ra, vui lòng thử lại');
-      }
+      const { confirmPassword, ...registerData } = formData;
+      await register(registerData);
+      alert('Đăng ký thành công!');
+      navigate('/login');
     } catch (error) {
-      console.error('Đăng ký thất bại:', error); // Log chi tiết lỗi
-      console.log('Chi tiết lỗi:', error.response?.data || 'Không có phản hồi từ server'); // Log chi tiết phản hồi lỗi
-      setErrorMessage('Có lỗi xảy ra, vui lòng thử lại');
+      setError(error.message || 'Đăng ký thất bại');
     }
   };
 
@@ -56,62 +71,77 @@ const RegisterPage = () => {
         <div className="register-box">
           <h2>REGISTER FORM</h2>
           <form onSubmit={handleSubmit}>
+            {error && <p className="error-message">{error}</p>}
+            
             <div className="input-group">
               <input
                 type="text"
-                placeholder="USERNAME"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                name="username"
+                placeholder="Username"
+                value={formData.username}
+                onChange={handleChange}
                 required
               />
-              <span className="icon">@</span>
+              <span className="icon">👤</span>
             </div>
+
             <div className="input-group">
               <input
-                type="text"
-                placeholder="EMAIL"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
                 required
               />
-              <span className="icon">@</span>
+              <span className="icon">📧</span>
             </div>
+
             <div className="input-group">
               <input
-                type="text"
-                placeholder="PHONE"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
+                type="tel"
+                name="phone"
+                placeholder="Phone"
+                value={formData.phone}
+                onChange={handleChange}
                 required
               />
-              <span className="icon">📞</span>
+              <span className="icon">📱</span>
             </div>
+
             <div className="input-group">
               <input
                 type="password"
-                placeholder="PASSWORD"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
                 required
               />
               <span className="icon">🔒</span>
             </div>
+
             <div className="input-group">
               <input
                 type="password"
-                placeholder="CONFIRM PASSWORD"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
                 required
               />
               <span className="icon">🔒</span>
             </div>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <button type="submit" className="register-btn">REGISTER</button>
+
+            <button type="submit" className="register-btn">
+              REGISTER
+            </button>
           </form>
+
           <div className="login-link">
             <p>
-              Already have an account? → <a href="/login">Login Here</a>
+              Already have an account? →{' '}
+              <a href="/login">Login Here</a>
             </p>
           </div>
         </div>

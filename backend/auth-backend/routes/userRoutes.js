@@ -1,92 +1,118 @@
 const express = require('express');
-const User = require('../models/User');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const authenticateJWT = require('../middleware/authMiddleware'); // Import middleware xác thực JWT
-
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const authenticateJWT = require('../middleware/authMiddleware');
 
-// Đăng ký người dùng (POST /api/users/register)
+// Đăng ký
 router.post('/register', async (req, res) => {
-  const { username, email, phone, password } = req.body;
-
   try {
-    // Kiểm tra xem người dùng đã tồn tại chưa (kiểm tra email hoặc số điện thoại)
+    const { username, email, phone, password } = req.body;
+
+    // Kiểm tra user tồn tại
     const existingUser = await User.findOne({
-      $or: [{ email: email }, { phone: phone }],
+      $or: [{ email }, { phone }, { username }]
     });
 
     if (existingUser) {
-      return res.status(400).json({ message: 'Email hoặc Số điện thoại đã tồn tại!' });
+      return res.status(400).json({
+        success: false,
+        message: 'Email, số điện thoại hoặc username đã tồn tại'
+      });
     }
 
-    // Tạo người dùng mới
-    const user = new User({
+    // Tạo user mới
+    const user = await User.create({
       username,
       email,
       phone,
-      password,
+      password
     });
 
-    // Mã hóa mật khẩu trước khi lưu vào MongoDB
-    user.password = await bcrypt.hash(user.password, 10);
-
-    // Lưu người dùng mới vào MongoDB
-    await user.save();
-    res.status(201).json({ message: 'Đăng ký thành công!' });
+    res.status(201).json({
+      success: true,
+      message: 'Đăng ký thành công'
+    });
 
   } catch (error) {
-    console.error('Chi tiết lỗi backend:', error); // Log chi tiết lỗi
-    res.status(500).json({ message: 'Đăng ký thất bại!' });
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
   }
 });
 
-// Đăng nhập người dùng (POST /api/users/login)
+// Đăng nhập
 router.post('/login', async (req, res) => {
-  const { emailOrPhone, password } = req.body;
-
   try {
-    // Tìm người dùng dựa trên email hoặc số điện thoại
-    let user = /\S+@\S+\.\S+/.test(emailOrPhone)
-      ? await User.findOne({ email: emailOrPhone })
-      : await User.findOne({ phone: emailOrPhone });
+    const { emailOrPhone, password } = req.body;
+
+    // Tìm user theo email hoặc phone
+    const user = await User.findOne({
+      $or: [{ email: emailOrPhone }, { phone: emailOrPhone }]
+    });
 
     if (!user) {
-      return res.status(400).json({ message: 'Email hoặc Số điện thoại không đúng!' });
+      return res.status(401).json({
+        success: false,
+        message: 'Email/Số điện thoại hoặc mật khẩu không đúng'
+      });
     }
 
-    // Kiểm tra mật khẩu
-    const isMatch = await bcrypt.compare(password, user.password);
+    // Kiểm tra password
+    const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Mật khẩu không đúng!' });
+      return res.status(401).json({
+        success: false,
+        message: 'Email/Số điện thoại hoặc mật khẩu không đúng'
+      });
     }
 
-    // Tạo JWT token
+    // Tạo token
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '24h' }
     );
 
-    res.status(200).json({ token });
+    res.json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email
+      }
+    });
+
   } catch (error) {
-    console.error('Chi tiết lỗi backend:', error); // Log chi tiết lỗi
-    res.status(500).json({ message: 'Đăng nhập thất bại!' });
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
   }
 });
 
-// Route yêu cầu xác thực (Protected route)
+// Lấy thông tin user (protected route)
 router.get('/profile', authenticateJWT, async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select('-password'); // Tìm người dùng và loại bỏ mật khẩu
+    const user = await User.findById(req.userId).select('-password');
     if (!user) {
-      return res.status(404).json({ message: 'Người dùng không tồn tại' });
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy user'
+      });
     }
-    res.status(200).json(user);
+    res.json({
+      success: true,
+      user
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Lỗi khi lấy thông tin người dùng' });
+    res.status(400).json({
+      success: false,
+      message: error.message
+    });
   }
 });
 
 module.exports = router;
- 
