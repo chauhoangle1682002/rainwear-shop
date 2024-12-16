@@ -6,7 +6,7 @@ const authenticateJWT = (req, res, next) => {
   if (!authHeader) {
     return res.status(401).json({
       success: false,
-      message: 'Không tìm thấy token xác thực'
+      message: 'No token provided'
     });
   }
 
@@ -19,7 +19,7 @@ const authenticateJWT = (req, res, next) => {
   } catch (error) {
     return res.status(403).json({
       success: false,
-      message: 'Token không hợp lệ hoặc đã hết hạn'
+      message: 'Invalid token'
     });
   }
 };

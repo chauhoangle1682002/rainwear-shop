@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../api/userAPI';
+import { login, checkAuthStatus } from '../api/userAPI';
 import "../styles/LoginPage.css";
 
 const LoginPage = () => {
@@ -9,29 +9,70 @@ const LoginPage = () => {
     password: ''
   });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Kiểm tra nếu user đã đăng nhập
+  useEffect(() => {
+    const { isAuthenticated } = checkAuthStatus();
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Clear error when user types
+    setError('');
+  };
+
+  const validateForm = () => {
+    if (!formData.emailOrPhone.trim()) {
+      setError('Vui lòng nhập email hoặc số điện thoại');
+      return false;
+    }
+    if (!formData.password) {
+      setError('Vui lòng nhập mật khẩu');
+      return false;
+    }
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!validateForm()) return;
+
+    setLoading(true);
     setError('');
 
     try {
+      console.log('Attempting login with:', {
+        emailOrPhone: formData.emailOrPhone,
+        password: '***'
+      });
+
       const response = await login(formData.emailOrPhone, formData.password);
-      if (response.success && response.token) {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
+      console.log('Login response:', response);
+
+      if (response.success && response.accessToken) {
+        // Token đã được lưu trong login function
+        console.log('Login successful');
         alert('Đăng nhập thành công!');
         navigate('/');
+      } else {
+        console.log('Login failed:', response);
+        setError(response.message || 'Đăng nhập thất bại');
       }
     } catch (error) {
-      setError(error.message || 'Đăng nhập thất bại');
+      console.error('Login error:', error);
+      setError(error.message || 'Đăng nhập thất bại. Vui lòng thử lại sau.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -50,6 +91,7 @@ const LoginPage = () => {
                 placeholder="Email or Phone"
                 value={formData.emailOrPhone}
                 onChange={handleChange}
+                disabled={loading}
                 required
               />
               <span className="icon">👤</span>
@@ -62,6 +104,7 @@ const LoginPage = () => {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
+                disabled={loading}
                 required
               />
               <span className="icon">🔒</span>
@@ -69,13 +112,20 @@ const LoginPage = () => {
 
             <div className="options">
               <label>
-                <input type="checkbox" /> Remember me
+                <input 
+                  type="checkbox" 
+                  disabled={loading}
+                /> Remember me
               </label>
               <a href="/forgot-password">Forgot password?</a>
             </div>
 
-            <button type="submit" className="login-btn">
-              LOGIN
+            <button 
+              type="submit" 
+              className="login-btn"
+              disabled={loading}
+            >
+              {loading ? 'LOGGING IN...' : 'LOGIN'}
             </button>
           </form>
 
