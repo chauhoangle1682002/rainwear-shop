@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const tokenSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'User'
+    ref: 'User',
+    required: true
   },
   token: {
     type: String,
@@ -12,13 +12,12 @@ const tokenSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    required: true,
-    enum: ['refresh', 'reset', 'verify']
+    required: true
   },
   expires: {
     type: Date,
     required: true
   }
-}, { timestamps: true });
+});
 
 module.exports = mongoose.model('Token', tokenSchema);

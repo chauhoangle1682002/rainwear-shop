@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { login, checkAuthStatus } from '../api/userAPI';
+import { FaUser, FaLock } from 'react-icons/fa';
 import "../styles/LoginPage.css";
 
 const LoginPage = () => {
@@ -12,12 +13,14 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Kiểm tra nếu user đã đăng nhập
   useEffect(() => {
-    const { isAuthenticated } = checkAuthStatus();
-    if (isAuthenticated) {
-      navigate('/');
-    }
+    const checkAuth = async () => {
+      const isAuthenticated = await checkAuthStatus();
+      if (isAuthenticated) {
+        navigate('/');
+      }
+    };
+    checkAuth();
   }, [navigate]);
 
   const handleChange = (e) => {
@@ -25,7 +28,6 @@ const LoginPage = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
-    // Clear error when user types
     setError('');
   };
 
@@ -43,34 +45,27 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate form
-    if (!validateForm()) return;
-
     setLoading(true);
     setError('');
-
+  
     try {
-      console.log('Attempting login with:', {
-        emailOrPhone: formData.emailOrPhone,
-        password: '***'
-      });
-
+      // Kiểm tra dữ liệu trước khi gửi
+      if (!formData.emailOrPhone || !formData.password) {
+        setError('Vui lòng điền đầy đủ thông tin');
+        return;
+      }
+  
+      // Gửi request đúng format
       const response = await login(formData.emailOrPhone, formData.password);
-      console.log('Login response:', response);
-
-      if (response.success && response.accessToken) {
-        // Token đã được lưu trong login function
-        console.log('Login successful');
-        alert('Đăng nhập thành công!');
+  
+      if (response.success) {
         navigate('/');
       } else {
-        console.log('Login failed:', response);
-        setError(response.message || 'Đăng nhập thất bại');
+        setError(response.message);
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      setError(error.message || 'Đăng nhập thất bại. Vui lòng thử lại sau.');
+    } catch (err) {
+      console.error('Login error:', err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -81,43 +76,45 @@ const LoginPage = () => {
       <div className="login-container">
         <div className="login-box">
           <h2>LOGIN FORM</h2>
+          
+          {error && (
+            <div className="error-message">
+              {error}
+            </div>
+          )}
+
           <form onSubmit={handleSubmit}>
-            {error && <p className="error-message">{error}</p>}
-            
             <div className="input-group">
               <input
                 type="text"
                 name="emailOrPhone"
-                placeholder="Email or Phone"
                 value={formData.emailOrPhone}
                 onChange={handleChange}
+                placeholder="Email hoặc Số điện thoại"
                 disabled={loading}
                 required
               />
-              <span className="icon">👤</span>
+              <span className="icon"><FaUser /></span>
             </div>
 
             <div className="input-group">
               <input
                 type="password"
                 name="password"
-                placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
+                placeholder="Mật khẩu"
                 disabled={loading}
                 required
               />
-              <span className="icon">🔒</span>
+              <span className="icon"><FaLock /></span>
             </div>
 
             <div className="options">
               <label>
-                <input 
-                  type="checkbox" 
-                  disabled={loading}
-                /> Remember me
+                <input type="checkbox" /> Remember me
               </label>
-              <a href="/forgot-password">Forgot password?</a>
+              <Link to="/forgot-password">Forgot password?</Link>
             </div>
 
             <button 
@@ -125,16 +122,14 @@ const LoginPage = () => {
               className="login-btn"
               disabled={loading}
             >
-              {loading ? 'LOGGING IN...' : 'LOGIN'}
+              {loading ? 'Đang xử lý...' : 'LOGIN'}
             </button>
-          </form>
 
-          <div className="register-link">
-            <p>
-              Don't have an account? →{' '}
-              <a href="/register">Register Here</a>
-            </p>
-          </div>
+            <div className="register-link">
+              Don't have an account? 
+              <Link to="/register"> Register Here</Link>
+            </div>
+          </form>
         </div>
       </div>
     </div>
