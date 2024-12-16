@@ -15,20 +15,119 @@ const validatePhone = (phone) => {
   return /^[0-9]{10,11}$/.test(phone);
 };
 
-// Register route giữ nguyên...
+// Register route
+router.post('/register', async (req, res) => {
+  try {
+    const { username, email, phone, password } = req.body;
+    console.log('Register attempt:', { username, email, phone });
 
-// Login route với debug logs đầy đủ
+    // Validate input
+    if (!username || !email || !phone || !password) {
+      return res.status(400).json({
+        success: false,
+        message: 'Vui lòng điền đầy đủ thông tin'
+      });
+    }
+
+    // Validate email format
+    if (!validateEmail(email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email không hợp lệ'
+      });
+    }
+
+    // Validate phone format
+    if (!validatePhone(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Số điện thoại không hợp lệ'
+      });
+    }
+
+    // Check existing user
+    const existingUser = await User.findOne({
+      $or: [
+        { email },
+        { phone },
+        { username }
+      ]
+    });
+
+    if (existingUser) {
+      let message = 'Tài khoản đã tồn tại';
+      if (existingUser.email === email) {
+        message = 'Email đã được sử dụng';
+      } else if (existingUser.phone === phone) {
+        message = 'Số điện thoại đã được sử dụng';
+      } else if (existingUser.username === username) {
+        message = 'Username đã được sử dụng';
+      }
+      return res.status(400).json({
+        success: false,
+        message
+      });
+    }
+
+    // Create new user
+    const user = new User({
+      username,
+      email,
+      phone,
+      password
+    });
+
+    await user.save();
+
+    // Generate tokens
+    const accessToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '15m' }
+    );
+
+    const refreshToken = crypto.randomBytes(32).toString('hex');
+    
+    // Save refresh token
+    await Token.create({
+      userId: user._id,
+      token: refreshToken,
+      type: 'refresh',
+      expires: Date.now() + 7*24*60*60*1000 // 7 days
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Đăng ký thành công',
+      accessToken,
+      refreshToken,
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        phone: user.phone
+      }
+    });
+
+  } catch (error) {
+    console.error('Register error:', error);
+    res.status(500).json({
+      success: false,
+      message: error.code === 11000 
+        ? 'Email hoặc số điện thoại đã được sử dụng' 
+        : 'Lỗi server, vui lòng thử lại sau'
+    });
+  }
+});
+
+// Login route
 router.post('/login', async (req, res) => {
   try {
     const { emailOrPhone, password } = req.body;
-    console.log('Login attempt with:', { 
-      emailOrPhone, 
-      passwordReceived: !!password 
-    });
+    console.log('Login attempt with:', { emailOrPhone, passwordReceived: !!password });
 
     // Validate input
     if (!emailOrPhone || !password) {
-      console.log('Missing credentials');
       return res.status(400).json({
         success: false,
         message: 'Vui lòng điền đầy đủ thông tin'
@@ -43,14 +142,7 @@ router.post('/login', async (req, res) => {
       ]
     });
 
-    console.log('User search result:', {
-      found: !!user,
-      userEmail: user?.email,
-      userPhone: user?.phone
-    });
-
     if (!user) {
-      console.log('User not found');
       return res.status(401).json({
         success: false,
         message: 'Email/Số điện thoại hoặc mật khẩu không đúng'
@@ -59,10 +151,7 @@ router.post('/login', async (req, res) => {
 
     // Check password
     const isMatch = await user.comparePassword(password);
-    console.log('Password match result:', isMatch);
-
     if (!isMatch) {
-      console.log('Password does not match');
       return res.status(401).json({
         success: false,
         message: 'Email/Số điện thoại hoặc mật khẩu không đúng'
@@ -86,8 +175,6 @@ router.post('/login', async (req, res) => {
       expires: Date.now() + 7*24*60*60*1000 // 7 days
     });
 
-    console.log('Login successful, tokens generated');
-
     // Remove old refresh tokens
     await Token.deleteMany({
       userId: user._id,
@@ -102,7 +189,8 @@ router.post('/login', async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        phone: user.phone
       }
     });
 
@@ -115,16 +203,35 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Profile route giữ nguyên...
+// Get user profile
+router.get('/profile', authenticateJWT, async (req, res) => {
+  try {
+    const user = await User.findById(req.userId).select('-password');
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+    res.json({
+      success: true,
+      user
+    });
+  } catch (error) {
+    console.error('Profile error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Lỗi server, vui lòng thử lại sau'
+    });
+  }
+});
 
 // Refresh token route
 router.post('/refresh-token', async (req, res) => {
   try {
     const { refreshToken } = req.body;
-    console.log('Refresh token request received');
     
     if (!refreshToken) {
-      console.log('No refresh token provided');
       return res.status(400).json({
         success: false,
         message: 'Refresh token is required'
@@ -136,8 +243,6 @@ router.post('/refresh-token', async (req, res) => {
       type: 'refresh',
       expires: { $gt: Date.now() }
     });
-
-    console.log('Token document found:', !!tokenDoc);
 
     if (!tokenDoc) {
       return res.status(401).json({
@@ -151,8 +256,6 @@ router.post('/refresh-token', async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: '15m' }
     );
-
-    console.log('New access token generated');
 
     res.json({
       success: true,
