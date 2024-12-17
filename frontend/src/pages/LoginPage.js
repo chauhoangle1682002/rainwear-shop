@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login, checkAuthStatus } from '../api/userAPI';
+import { useAuth } from '../contexts/AuthContext'; // Thêm dòng này
 import { FaUser, FaLock } from 'react-icons/fa';
 import "../styles/LoginPage.css";
 
@@ -12,6 +13,7 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login: authLogin } = useAuth(); // Thêm dòng này
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -49,23 +51,29 @@ const LoginPage = () => {
     setError('');
   
     try {
-      // Kiểm tra dữ liệu trước khi gửi
-      if (!formData.emailOrPhone || !formData.password) {
-        setError('Vui lòng điền đầy đủ thông tin');
+      if (!validateForm()) {
+        setLoading(false);
         return;
       }
   
-      // Gửi request đúng format
       const response = await login(formData.emailOrPhone, formData.password);
   
       if (response.success) {
-        navigate('/');
+        // Cập nhật user trong AuthContext
+        console.log('Login successful, updating user:', response.user);
+        authLogin(response.user);
+        
+        // Thêm delay nhỏ để đảm bảo state được cập nhật
+        setTimeout(() => {
+          navigate('/');
+        }, 100);
       } else {
+        console.error('Login failed:', response.message);
         setError(response.message);
       }
     } catch (err) {
       console.error('Login error:', err);
-      setError(err.message);
+      setError(err.message || 'Đăng nhập thất bại');
     } finally {
       setLoading(false);
     }

@@ -1,9 +1,12 @@
+/* Import Font Awesome */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
 /* Navbar styles */
 .navbar {
-  background-color: #333; /* Dark background for better contrast */
+  background-color: #333;
   font-family: 'Arial', sans-serif;
-  padding: 10px 20px; /* Add some padding */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Brand logo */
@@ -12,57 +15,147 @@
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #fff; /* White text */
+  color: #fff;
   transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
 .navbar-brand:hover {
-  color: #f8c146; /* Gold color on hover */
-  transform: scale(1.1); /* Slight zoom effect */
+  color: #f8c146;
+  transform: scale(1.1);
 }
 
 /* Links styles */
 .navbar-nav .nav-link {
-  margin-left: 20px; /* Space between items */
-  color: #fff; /* White text */
+  margin-left: 20px;
+  color: #fff;
   font-size: 1.1rem;
   font-weight: 600;
   transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
-  padding: 8px 15px; /* Add padding for better spacing */
-  border-radius: 5px; /* Rounded corners for links */
+  padding: 8px 15px;
+  border-radius: 5px;
 }
 
 /* Hover effect */
 .navbar-nav .nav-link:hover {
-  color: #f8c146; /* Gold color */
-  text-decoration: none; /* Remove underline */
-  background-color: rgba(248, 193, 70, 0.1); /* Light gold background */
-  transform: translateY(-2px); /* Slight hover lift effect */
+  color: #f8c146;
+  text-decoration: none;
+  background-color: rgba(248, 193, 70, 0.1);
+  transform: translateY(-2px);
 }
 
 /* Active link styles */
 .navbar-nav .nav-link.active {
-  color: #f8c146; /* Gold color for active links */
+  color: #f8c146;
   font-weight: bold;
-  background-color: rgba(248, 193, 70, 0.2); /* Subtle background for active state */
+  background-color: rgba(248, 193, 70, 0.2);
   text-decoration: none;
-  transform: scale(1.05); /* Slight zoom effect for active link */
+  transform: scale(1.05);
 }
 
-/* Toggler button */
-.navbar-toggler {
-  border-color: #fff;
-  background-color: #333; /* Match the navbar background */
+/* User Menu Styles */
+.user-menu {
+  display: flex !important;
+  align-items: center;
+  padding: 8px 15px !important;
+  background-color: rgba(248, 193, 70, 0.1);
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  color: white !important;
+  text-decoration: none;
 }
 
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+.user-menu:hover {
+  background-color: rgba(248, 193, 70, 0.2);
+  transform: translateY(-2px);
 }
 
-/* Navbar item badges */
+.user-icon {
+  font-size: 1.2rem;
+  color: #f8c146;
+  margin-right: 8px;
+}
+
+.user-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white !important;
+  display: inline-block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Dropdown Menu Styles */
+.dropdown-menu {
+  background-color: #333;
+  border: 1px solid rgba(248, 193, 70, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem !important;
+  border-radius: 8px;
+  min-width: 220px;
+  animation: fadeIn 0.3s ease;
+}
+
+.dropdown-menu.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  color: #f8c146 !important;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  background-color: transparent !important;
+}
+
+.dropdown-item i {
+  color: #f8c146;
+  width: 20px;
+  text-align: center;
+  margin-right: 12px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: rgba(248, 193, 70, 0.2) !important;
+  color: #ff6b6b !important;
+  transform: translateX(5px);
+}
+
+.dropdown-item:hover i {
+  color: #ff6b6b !important;
+  transform: scale(1.1);
+}
+
+.dropdown-divider {
+  border-color: rgba(248, 193, 70, 0.2);
+  margin: 0.5rem 0;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Badge Styles */
 .navbar-nav .nav-link .badge {
   background-color: #f8c146;
-  color: #333; /* Dark color for contrast */
+  color: #333;
   font-size: 0.9rem;
   font-weight: bold;
   padding: 5px 8px;
@@ -71,21 +164,78 @@
 }
 
 .navbar-nav .nav-link:hover .badge {
-  background-color: #e0a800; /* Darker shade of gold on hover */
+  background-color: #e0a800;
 }
 
-/* Responsive design adjustments */
+/* Responsive Styles */
 @media (max-width: 768px) {
   .navbar-nav .nav-link {
-    margin-bottom: 15px; /* Add more spacing between links on smaller screens */
-    font-size: 1.2rem; /* Adjust font size for smaller screens */
+    margin-bottom: 15px;
+    font-size: 1.2rem;
   }
   
   .navbar-brand {
-    font-size: 1.7rem; /* Adjust logo size for smaller screens */
+    font-size: 1.7rem;
   }
 
-  .navbar-toggler-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='3' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  .dropdown-menu {
+    background-color: #333;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 0;
   }
+
+  .dropdown-item {
+    color: #f8c146 !important;
+    padding: 10px 15px;
+  }
+
+  .dropdown-item:hover {
+    background-color: rgba(248, 193, 70, 0.1) !important;
+    color: #ff6b6b !important;
+  }
+
+  .dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.1);
+    margin: 0.25rem 0;
+  }
+
+  .nav-item.dropdown .nav-link {
+    padding-left: 15px;
+  }
+
+  .user-menu {
+    background-color: transparent;
+    padding-left: 0 !important;
+  }
+
+  .user-name {
+    font-size: 1rem;
+  }
+
+  .user-icon {
+    font-size: 1.1rem;
+  }
+
+  .dropdown-toggle::after {
+    margin-left: 8px;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+/* Toggler Button Styles */
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+  padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
 }

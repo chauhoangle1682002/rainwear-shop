@@ -80,6 +80,50 @@ html, body {
   transform: scale(1.1);
 }
 
+/* Thông tin ưu đãi đặc biệt */
+.shipping-info {
+  background-color: #f8f9fa;
+  padding: 40px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.shipping-info h2 {
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.shipping-info .row {
+  margin: 0;
+}
+
+.shipping-info .col-md-3 {
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.shipping-info .col-md-3:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.shipping-info i {
+  color: #ffcc00; /* Màu vàng cho biểu tượng */
+  margin-bottom: 15px;
+}
+
+.shipping-info h4 {
+  margin: 10px 0;
+  font-size: 1.25rem;
+  color: #555;
+}
+
+.shipping-info p {
+  color: #777;
+  font-size: 0.9rem;
+}
+
 /* Product List Section */
 .product-list {
   background-color: #fff;
@@ -160,6 +204,57 @@ html, body {
 .product-list .card .btn:hover {
   background-color: #ff9800;
   transform: scale(1.1);
+}
+
+/* Phần Câu Hỏi Thường Gặp (FAQ) */
+.faq-section {
+  background-color: #f9f9f9;
+  padding: 40px 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.faq-section h2 {
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+.faq-item {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd; /* Đường phân cách giữa các câu hỏi */
+  padding: 10px 0;
+  transition: background-color 0.3s ease;
+}
+
+.faq-item:hover {
+  background-color: #f0f0f0; /* Hiệu ứng hover cho từng câu hỏi */
+}
+
+.faq-question {
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #007bff;
+  transition: color 0.3s, transform 0.3s; /* Thêm hiệu ứng cho màu sắc và chuyển động */
+}
+
+.faq-question:hover {
+  color: #0056b3;
+  transform: scale(1.03); /* Hiệu ứng phóng to khi hover */
+}
+
+.faq-answer {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #555;
+  padding-left: 20px;
+  border-left: 3px solid #007bff;
+  display: none; /* Ẩn câu trả lời ban đầu */
+}
+
+.faq-answer.show {
+  display: block; /* Hiện câu trả lời */
 }
 
 /* Responsive Design */

@@ -15,15 +15,20 @@ export const register = async (userData) => {
 
       // Set token cho các request tiếp theo
       axiosInstance.setAuthToken(response.data.accessToken);
+
+      return {
+        success: true,
+        user: response.data.user
+      };
     }
 
     return response.data;
   } catch (error) {
     console.error('Register error:', error.response?.data || error);
-    throw new Error(
-      error.response?.data?.message || 
-      'Đăng ký thất bại. Vui lòng thử lại.'
-    );
+    return {
+      success: false,
+      message: error.response?.data?.message || 'Đăng ký thất bại. Vui lòng thử lại.'
+    };
   }
 };
 
@@ -45,15 +50,23 @@ export const login = async (emailOrPhone, password) => {
 
       // Set token cho các request tiếp theo
       axiosInstance.setAuthToken(response.data.accessToken);
+
+      return {
+        success: true,
+        user: response.data.user
+      };
     }
 
-    return response.data;
+    return {
+      success: false,
+      message: response.data.message
+    };
   } catch (error) {
     console.error('Login error:', error.response?.data || error);
-    throw new Error(
-      error.response?.data?.message || 
-      'Email/Số điện thoại hoặc mật khẩu không đúng'
-    );
+    return {
+      success: false,
+      message: error.response?.data?.message || 'Email/Số điện thoại hoặc mật khẩu không đúng'
+    };
   }
 };
 
@@ -70,13 +83,17 @@ export const checkAuthStatus = async () => {
     return response.data.success;
   } catch (error) {
     console.error('Auth check error:', error);
-    // Xóa thông tin đăng nhập nếu token không hợp lệ
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-    axiosInstance.setAuthToken(null);
+    clearAuthData();
     return false;
   }
+};
+
+// Helper function để xóa data auth
+const clearAuthData = () => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('user');
+  axiosInstance.setAuthToken(null);
 };
 
 // Đăng xuất
@@ -86,29 +103,21 @@ export const logout = async () => {
   } catch (error) {
     console.error('Logout error:', error);
   } finally {
-    // Luôn xóa thông tin đăng nhập kể cả có lỗi
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-    axiosInstance.setAuthToken(null);
+    clearAuthData();
   }
 };
 
-// Lấy thông tin user
+// Các function khác giữ nguyên
 export const getUserProfile = async () => {
   try {
     const response = await axiosInstance.get('/users/profile');
     return response.data.user;
   } catch (error) {
     console.error('Get profile error:', error);
-    throw new Error(
-      error.response?.data?.message || 
-      'Không thể lấy thông tin người dùng'
-    );
+    throw new Error(error.response?.data?.message || 'Không thể lấy thông tin người dùng');
   }
 };
 
-// Cập nhật thông tin user
 export const updateProfile = async (userData) => {
   try {
     const response = await axiosInstance.put('/users/profile', userData);
@@ -118,42 +127,30 @@ export const updateProfile = async (userData) => {
     return response.data;
   } catch (error) {
     console.error('Update profile error:', error);
-    throw new Error(
-      error.response?.data?.message || 
-      'Cập nhật thông tin thất bại'
-    );
+    throw new Error(error.response?.data?.message || 'Cập nhật thông tin thất bại');
   }
 };
 
-// Đổi mật khẩu
 export const changePassword = async (passwordData) => {
   try {
     const response = await axiosInstance.post('/users/change-password', passwordData);
     return response.data;
   } catch (error) {
     console.error('Change password error:', error);
-    throw new Error(
-      error.response?.data?.message || 
-      'Đổi mật khẩu thất bại'
-    );
+    throw new Error(error.response?.data?.message || 'Đổi mật khẩu thất bại');
   }
 };
 
-// Quên mật khẩu
 export const forgotPassword = async (email) => {
   try {
     const response = await axiosInstance.post('/users/forgot-password', { email });
     return response.data;
   } catch (error) {
     console.error('Forgot password error:', error);
-    throw new Error(
-      error.response?.data?.message || 
-      'Gửi yêu cầu khôi phục mật khẩu thất bại'
-    );
+    throw new Error(error.response?.data?.message || 'Gửi yêu cầu khôi phục mật khẩu thất bại');
   }
 };
 
-// Reset mật khẩu
 export const resetPassword = async (token, newPassword) => {
   try {
     const response = await axiosInstance.post(`/users/reset-password/${token}`, {
@@ -162,14 +159,10 @@ export const resetPassword = async (token, newPassword) => {
     return response.data;
   } catch (error) {
     console.error('Reset password error:', error);
-    throw new Error(
-      error.response?.data?.message || 
-      'Đặt lại mật khẩu thất bại'
-    );
+    throw new Error(error.response?.data?.message || 'Đặt lại mật khẩu thất bại');
   }
 };
 
-// Refresh token
 export const refreshToken = async () => {
   try {
     const refreshToken = localStorage.getItem('refreshToken');
@@ -187,10 +180,7 @@ export const refreshToken = async () => {
     return response.data;
   } catch (error) {
     console.error('Refresh token error:', error);
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
-    axiosInstance.setAuthToken(null);
+    clearAuthData();
     throw new Error('Phiên đăng nhập hết hạn');
   }
 };

@@ -10,6 +10,7 @@ const HomePage = () => {
   const { addToCart } = useCart(); // Lấy hàm addToCart từ CartContext
   const [selectedProduct, setSelectedProduct] = useState(null); // Trạng thái để mở modal
   const [visibleSections, setVisibleSections] = useState([]); // Lưu các section đã visible
+  const [faqOpen, setFaqOpen] = useState(null); // Trạng thái để mở/đóng câu hỏi FAQ
 
   // Sử dụng useProduct hook để lấy danh sách sản phẩm và trạng thái loading, error
   const { categories, products, loading, error } = useProduct();
@@ -68,6 +69,11 @@ const HomePage = () => {
     alert(`${product.name} đã được thêm vào giỏ hàng!`);
   };
 
+  // Hàm để mở/đóng câu hỏi FAQ
+  const toggleFaq = (index) => {
+    setFaqOpen(faqOpen === index ? null : index);
+  };
+
   if (loading) return <div>Loading...</div>; // Hiển thị khi đang tải
   if (error) return <div>Error: {error}</div>; // Hiển thị khi có lỗi
 
@@ -81,6 +87,35 @@ const HomePage = () => {
           <div className="buttons">
             <button className="btn btn-warning me-2">Mua Ngay</button>
             <Link to="/products" className="btn btn-outline-warning">Xem Thêm</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Thông tin miễn phí vận chuyển và các ưu đãi khác */}
+      <section className="shipping-info text-center my-5">
+        <div className="container">
+          <h2>Ưu Đãi Đặc Biệt</h2>
+          <div className="row">
+            <div className="col-md-3">
+              <i className="fas fa-truck fa-3x"></i>
+              <h4>Miễn Phí Vận Chuyển</h4>
+              <p>Cho đơn hàng trên 500k</p>
+            </div>
+            <div className="col-md-3">
+              <i className="fas fa-shield-alt fa-3x"></i>
+              <h4>Bảo Hành 1 Năm</h4>
+              <p>Đổi trả miễn phí</p>
+            </div>
+            <div className="col-md-3">
+              <i className="fas fa-headset fa-3x"></i>
+              <h4>Hỗ Trợ 24/7</h4>
+              <p>Luôn sẵn sàng phục vụ</p>
+            </div>
+            <div className="col-md-3">
+              <i className="fas fa-gift fa-3x"></i>
+              <h4>Quà Tặng Hấp Dẫn</h4>
+              <p>Nhiều ưu đãi đặc biệt</p>
+            </div>
           </div>
         </div>
       </section>
@@ -162,6 +197,29 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Phần Câu Hỏi Thường Gặp (FAQ) */}
+      <section className="faq-section my-5">
+  <div className="container">
+    <h2 className="text-center mb-4">Câu Hỏi Thường Gặp (FAQ)</h2>
+    <div className="faq-item">
+      <h5 onClick={() => toggleFaq(0)} className="faq-question">1. Chính sách đổi trả của bạn là gì?</h5>
+      <p className={`faq-answer ${faqOpen === 0 ? 'show' : ''}`}>Chúng tôi chấp nhận đổi trả trong vòng 30 ngày kể từ ngày nhận hàng.</p>
+    </div>
+    <div className="faq-item">
+      <h5 onClick={() => toggleFaq(1)} className="faq-question">2. Tôi có thể theo dõi đơn hàng của mình không?</h5>
+      <p className={`faq-answer ${faqOpen === 1 ? 'show' : ''}`}>Có, bạn sẽ nhận được mã theo dõi qua email sau khi đơn hàng được gửi đi.</p>
+    </div>
+    <div className="faq-item">
+      <h5 onClick={() => toggleFaq(2)} className="faq-question">3. Bạn có cung cấp miễn phí vận chuyển không?</h5>
+      <p className={`faq-answer ${faqOpen === 2 ? 'show' : ''}`}>Có, chúng tôi cung cấp miễn phí vận chuyển cho đơn hàng trên 500k.</p>
+    </div>
+    <div className="faq-item">
+      <h5 onClick={() => toggleFaq(3)} className="faq-question">4. Làm thế nào để liên hệ với dịch vụ khách hàng?</h5>
+      <p className={`faq-answer ${faqOpen === 3 ? 'show' : ''}`}>Bạn có thể liên hệ với chúng tôi qua email hoặc số điện thoại được cung cấp trên trang liên hệ.</p>
+    </div>
+  </div>
+</section>
 
       {/* Modal hiển thị chi tiết sản phẩm */}
       {selectedProduct && (
