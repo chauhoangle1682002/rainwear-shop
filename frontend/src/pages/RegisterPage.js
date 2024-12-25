@@ -54,7 +54,8 @@ const RegisterPage = () => {
       });
 
       if (response.success) {
-        navigate('/login');
+        navigate('/'); // Điều hướng về trang chủ
+        window.location.reload(); // Làm mới trang
       }
     } catch (err) {
       setError(err.message);
